@@ -47,7 +47,7 @@ HB_DATA <- function(neptun, ZH = 1, password, config_url = NULL) {
     error = function(e) stop("Nem sikerült letölteni a ZH scriptet.")
   )
 
-  zh_env <- new.env(parent = globalenv())
+  zh_env <- new.env(parent = .GlobalEnv)
   zh_env$neptun <- neptun
   zh_env$ZH <- ZH
   zh_env$seed <- seed
