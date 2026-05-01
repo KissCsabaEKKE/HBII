@@ -47,12 +47,13 @@ HB_DATA <- function(neptun, ZH = 1, password, config_url = NULL) {
     error = function(e) stop("Nem sikerült letölteni a ZH scriptet.")
   )
 
-  zh_env <- new.env(parent = .GlobalEnv)
-  zh_env$neptun <- neptun
-  zh_env$ZH <- ZH
-  zh_env$seed <- seed
+zh_env <- new.env(parent = globalenv())
 
-  eval(parse(text = kod), envir = zh_env)
+zh_env$neptun <- neptun
+zh_env$ZH <- ZH
+zh_env$seed <- seed
+
+eval(parse(text = kod), envir = zh_env, enclos = parent.frame())
 
   objektumok <- ls(zh_env)
   atadando <- objektumok[grepl("^adat_", objektumok)]
