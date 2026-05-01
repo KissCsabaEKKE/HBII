@@ -59,16 +59,23 @@ eval(parse(text = kod), envir = zh_env, enclos = parent.frame())
   atadando <- objektumok[grepl("^adat_", objektumok)]
 
   for (obj in atadando) {
-    assign(obj, get(obj, envir = zh_env), envir = .GlobalEnv)
-  }
+  assign(obj, get(obj, envir = zh_env), envir = .GlobalEnv)
+}
 
-  if ("feladat_szoveg" %in% objektumok) {
-    cat(zh_env$feladat_szoveg)
-  }
+if ("feladat_szoveg" %in% objektumok) {
+  
+  # Feladatszöveg mentése az Environment-be
+  assign("feladat_szoveg", zh_env$feladat_szoveg, envir = .GlobalEnv)
+  
+  # Feladatszöveg kiírása a Console-ba
+  cat("\n")
+  cat(zh_env$feladat_szoveg)
+  cat("\n")
+}
 
-  message("\nA ZH adatai elkészültek.")
-  message("Létrehozott objektumok: ", paste(atadando, collapse = ", "))
-  message("Egyedi seed: ", seed)
+message("\nA ZH adatai elkészültek.")
+message("Létrehozott objektumok: ", paste(c(atadando, "feladat_szoveg"), collapse = ", "))
+message("Egyedi seed: ", seed)
 
-  invisible(atadando)
+invisible(c(atadando, "feladat_szoveg"))
 }
