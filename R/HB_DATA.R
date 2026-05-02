@@ -1,4 +1,4 @@
-HB_DATA <- function(neptun, ZH = 1, password, config_url = NULL) {
+HB_DATA <- function(neptun, ZH = NULL, password, config_url = NULL) {
   
   if (missing(neptun) || missing(password)) {
     stop("Adja meg a neptun és password argumentumokat.")
@@ -13,11 +13,24 @@ HB_DATA <- function(neptun, ZH = 1, password, config_url = NULL) {
     error = function(e) stop("Nem sikerült elérni a ZH konfigurációs fájlt.")
   )
   
+  if (is.null(ZH)) {
+  
+  sor <- config[as.logical(config$aktiv), ]
+  
+  if (nrow(sor) != 1) {
+    stop("Pontosan egy aktív ZH lehet a konfigurációs fájlban.")
+  }
+  
+  ZH <- sor$ZH
+  
+} else {
+  
   sor <- config[config$ZH == ZH, ]
   
   if (nrow(sor) != 1) {
     stop("Nincs ilyen ZH azonosító a konfigurációs fájlban.")
   }
+}
   
   if (!isTRUE(as.logical(sor$aktiv))) {
     stop("Ez a ZH jelenleg nem aktív.")
